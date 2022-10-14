@@ -1,0 +1,35 @@
+Description: replace ava by tape
+Author: Xavier Guimard <yadd@debian.org>
+Forwarded: not-needed
+Last-Update: 2021-11-13
+
+--- a/test.js
++++ b/test.js
+@@ -1,4 +1,4 @@
+-const test = require('ava');
++const test = require('tape');
+ const isRetryAllowed = require('.');
+ 
+ const error = code => ({code});
+@@ -7,6 +7,7 @@
+ 	t.true(isRetryAllowed(undefined));
+ 	t.true(isRetryAllowed({}));
+ 	t.true(isRetryAllowed({code: 'unicorns'}));
++	t.end();
+ });
+ 
+ test('allowList', t => {
+@@ -18,6 +19,7 @@
+ 	t.true(isRetryAllowed(error('EPIPE')));
+ 	t.true(isRetryAllowed(error('EHOSTUNREACH')));
+ 	t.true(isRetryAllowed(error('EAI_AGAIN')));
++	t.end();
+ });
+ 
+ test('denyList', t => {
+@@ -50,4 +52,5 @@
+ 	t.false(isRetryAllowed(error('INVALID_PURPOSE')));
+ 	t.false(isRetryAllowed(error('CERT_UNTRUSTED')));
+ 	t.false(isRetryAllowed(error('CERT_REJECTED')));
++	t.end();
+ });
